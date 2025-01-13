@@ -11,6 +11,7 @@ import { TeachablemachineService } from '../services/teachablemachine.service';
 
 @Component({
   selector: 'app-tab1',
+  standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   imports: [PercentPipe,IonCardContent, IonButton, IonList, IonItem, IonLabel,IonFab, IonFabButton, IonIcon, IonCard,IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],

@@ -20,33 +20,31 @@
       <p>
         Mantener una buena postura es esencial para prevenir problemas de salud como dolores de espalda, cuello y hombros. Esta herramienta utiliza inteligencia artificial para analizar tu postura y brindarte recomendaciones personalizadas.
       </p>
-      <h2>Como usar?</h2>
+      <h2>¿Cómo usarla?</h2>
       <p>Para usar esta herramienta, simplemente relaja tu cuerpo y tómate una foto de perfil como en el siguiente ejemplo:</p>
-      <img src="assets/jovenrecto.jpeg" alt="Imagen de referencia">
+      <img src="assets/jovenrecto.jpeg" alt="Imagen de referencia" />
     </div>
   </ion-card>
 
   <!-- CARGA DE IMAGEN - INICIO -->
   @if(imageReady()) {
     <ion-card>
-
       <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
-     
+
       <!-- CARGA DE PREDICCIÓN - INICIO -->
       @if(modelLoaded()) {
-
         <div class="ion-text-center ion-padding-top ion-padding-bottom">
           <ion-button fill="outline" color="success" (click)="predict()">Predecir</ion-button>
         </div>
-     
+
+        <!-- Lista de predicciones -->
         <ion-list>
           <ion-item>
-            <ion-label>Clases:  {{ classLabels  }} </ion-label>
+            <ion-label>Clases: {{ classLabels }}</ion-label>
           </ion-item>
-          <!-- Itera sobre la lista de predicciones -->
           @for (item of predictions; track $index) {
             <ion-item>
-              <ion-label> {{  item?.className  }} :  {{  item?.probability | percent  }} </ion-label>
+              <ion-label>{{ item?.className }}: {{ item?.probability | percent }}</ion-label>
             </ion-item>
           }
         </ion-list>
@@ -55,27 +53,29 @@
         <ion-item *ngIf="showMessage">
           <ion-label>
             <h3>{{ predictionMessage }}</h3>
-            <a *ngIf="recommendationLink" href="{{ recommendationLink }}" target="_blank">Haz clic aquí para más información.</a>
+            <a *ngIf="recommendationLink" href="{{ recommendationLink }}" target="_blank">
+              Haz clic aquí para más información.
+            </a>
           </ion-label>
         </ion-item>
+
         <!-- GRÁFICO PARA VISUALIZAR RESULTADOS -->
         <div class="chart-container">
           <canvas #resultChart></canvas>
         </div>
-     
-      } 
+      }
       <!-- CARGA DE PREDICCIÓN - FIN -->
-
     </ion-card>
   }
-  <!-- CARGA DE IMAGEN - FIN -->  
+  <!-- CARGA DE IMAGEN - FIN -->
+
   <!-- Referencia en plantilla #fileInput, callback para el evento change y oculta el elemento -->
   <input #fileInput type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
 
   <!-- Disparo del evento click de fileInput -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-      <ion-fab-button (click)="fileInput.click()">
-          <ion-icon name="cloud-upload-outline"></ion-icon>
-      </ion-fab-button>
+    <ion-fab-button (click)="fileInput.click()">
+      <ion-icon name="cloud-upload-outline"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
 </ion-content>

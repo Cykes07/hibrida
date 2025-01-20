@@ -1,112 +1,116 @@
-import { ViewChild, ElementRef,Component, signal } from '@angular/core';
-import { IonCardContent, IonButton, IonList, IonItem, IonLabel,IonFab, IonFabButton, IonIcon, IonCard,IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
-/* Importe el pipe */
+import { ViewChild, ElementRef, Component, signal } from '@angular/core';
+import {IonCardContent,IonButton,IonList,IonItem,IonLabel,IonFab,IonFabButton,IonIcon,IonCard,IonHeader,IonToolbar,IonTitle,IonContent,} from '@ionic/angular/standalone';
 import { PercentPipe } from '@angular/common';
-/* Importe la función y el ícono */
 import { addIcons } from 'ionicons';
 import { cloudUploadOutline } from 'ionicons/icons';
-/* Importe el servicio */
 import { TeachablemachineService } from '../services/teachablemachine.service';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-tab1',
   standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [CommonModule,PercentPipe,IonCardContent, IonButton, IonList, IonItem, IonLabel,IonFab, IonFabButton, IonIcon, IonCard,IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
+  imports: [CommonModule,PercentPipe,IonCardContent,IonButton,IonList,IonItem,IonLabel,IonFab,IonFabButton,IonIcon,IonCard,IonHeader,IonToolbar,IonTitle,IonContent,],
 })
-
 export class Tab1Page {
-    // Declarar las propiedades que se usan en la plantilla
-    predictionMessage: string = '';
-    recommendationLink: string = '';
+  // Propiedades para la predicción y mensajes
+  predictionMessage: string = '';
+  recommendationLink: string = '';
   isJorobado: boolean = false;
   showMessage: boolean = false;
 
-  imageReady = signal(false)
-  imageUrl = signal("")
+  // Estado de la imagen
+  imageReady = signal(false);
+  imageUrl = signal('');
 
-  /* Declare los atributos para almacenar el modelo y la lista de clases */
+  // Modelo y predicciones
   modelLoaded = signal(false);
   classLabels: string[] = [];
-  /* Declare la referencia al elemento con el id image */
-  @ViewChild('image', { static: false }) imageElement!: ElementRef<HTMLImageElement>;
-
-  /* Lista de predicciones */
   predictions: any[] = [];
 
-  @ViewChild('resultChart', { static: false }) resultChart!: ElementRef; // Referencia al gráfico
-  chart: any; // Variable para almacenar el gráfico
+  // Referencias al DOM
+  @ViewChild('image', { static: false }) imageElement!: ElementRef<HTMLImageElement>;
+  @ViewChild('resultChart', { static: false }) resultChart!: ElementRef;
+
+  chart: any;
 
   constructor(private teachablemachine: TeachablemachineService) {
-     /* Registre el ícono */
-     addIcons({ cloudUploadOutline });
+    addIcons({ cloudUploadOutline });
   }
 
-  /* El método onSubmit para enviar los datos del formulario mediante el servicio */
+  /* Método para manejar la carga de imágenes */
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
 
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-    
       const reader = new FileReader();
 
-      // Convertir el archivo a una URL base64 para mostrarlo en el html
       reader.onload = () => {
-        this.imageUrl.set(reader.result as string)
-        this.imageReady.set(true)
+        this.imageUrl.set(reader.result as string);
+        this.imageReady.set(true);
       };
-      reader.readAsDataURL(file); // Leer el archivo como base64
+      reader.readAsDataURL(file);
     }
   }
 
-
-  /* Método ngOnInit para cargar el modelo y las clases */
+  /* Método para cargar el modelo */
   async ngOnInit() {
-    await this.teachablemachine.loadModel()
-    this.classLabels = this.teachablemachine.getClassLabels()
-    this.modelLoaded.set(true)
+    await this.teachablemachine.loadModel();
+    this.classLabels = this.teachablemachine.getClassLabels();
+    this.modelLoaded.set(true);
   }
 
-  /* Método para obtener la predicción a partir de la imagen */
-/* Método para obtener la predicción a partir de la imagen */
-async predict() {
-  try {
-    const image = this.imageElement.nativeElement; // Obtén la imagen seleccionada
-    this.predictions = await this.teachablemachine.predict(image); // Realiza la predicción
-    
-    // Verifica si alguna de las predicciones es "jorobado" con probabilidad mayor al 50%
-    const jorobadoPrediction = this.predictions.find(
-      (prediction: any) =>
-        prediction.className.toLowerCase() === 'jorobado' &&
-        prediction.probability > 0.5
-    );
+  /* Método para predecir la postura */
+  async predict() {
+    try {
+      const image = this.imageElement.nativeElement;
+      this.predictions = await this.teachablemachine.predict(image);
 
-    // Si hay una predicción "jorobado" y la probabilidad es mayor al 50%, se guarda el mensaje
-    if (jorobadoPrediction) {
-      this.predictionMessage = 'Tu postura parece jorobada. Visita este sitio para mejorarla:';
-      this.recommendationLink = 'https://medlineplus.gov/spanish/guidetogoodposture.html';
-    } else {
-      this.predictionMessage = '¡Felicidades! Tu postura es excelente.';
-      this.recommendationLink = '';
+      const labels = this.predictions.map((prediction) => prediction.className);
+      const probabilities = this.predictions.map((prediction) => prediction.probability * 100);
+
+      // Determinar si es "jorobado"
+      const jorobadoPrediction = this.predictions.find(
+        (prediction) =>
+          prediction.className.toLowerCase() === 'jorobado' && prediction.probability > 0.5
+      );
+
+      if (jorobadoPrediction) {
+        this.predictionMessage = 'Tu postura parece jorobada. Visita este sitio para mejorarla:';
+        this.recommendationLink = 'https://medlineplus.gov/spanish/guidetogoodposture.html';
+        this.isJorobado = true;
+      } else {
+        this.predictionMessage = '¡Felicidades! Tu postura es excelente.';
+        this.recommendationLink = '';
+        this.isJorobado = false;
+      }
+
+      this.showMessage = true;
+
+      // Actualizar gráfico
+      if (this.chart) {
+        this.chart.data.labels = labels;
+        this.chart.data.datasets[0].data = probabilities;
+        this.chart.update();
+      } else {
+        this.createChart(labels, probabilities);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Error al realizar la predicción.');
     }
-
-    this.showMessage = true; // Activa la visualización del mensaje
-
-  } catch (error) {
-    console.error(error);
-    alert('Error al realizar la predicción.');
   }
-}
 
-
+  /* Método para crear un gráfico */
   createChart(labels: string[], data: number[]) {
     const ctx = this.resultChart.nativeElement.getContext('2d');
     this.chart = new Chart(ctx, {
-      type: 'pie', // Cambiado a gráfico de pastel
+      type: 'pie',
       data: {
         labels,
         datasets: [
@@ -114,7 +118,7 @@ async predict() {
             label: 'Porcentaje',
             data,
             backgroundColor: ['#FF6384', '#36A2EB'], // Colores personalizados
-            hoverBackgroundColor: ['#FF6384', '#36A2EB'], // Colores al pasar el mouse
+            hoverBackgroundColor: ['#FF6384', '#36A2EB'],
           },
         ],
       },
@@ -122,11 +126,10 @@ async predict() {
         responsive: true,
         plugins: {
           legend: {
-            position: 'top', // Mostrar leyenda en la parte superior
+            position: 'top',
           },
         },
       },
     });
   }
-
 }

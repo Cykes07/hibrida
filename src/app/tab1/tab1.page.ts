@@ -8,16 +8,23 @@ import { addIcons } from 'ionicons';
 import { cloudUploadOutline } from 'ionicons/icons';
 /* Importe el servicio */
 import { TeachablemachineService } from '../services/teachablemachine.service';
+import { CommonModule } from '@angular/common'; // Importar CommonModule
+
 
 @Component({
   selector: 'app-tab1',
   standalone: true,
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [PercentPipe,IonCardContent, IonButton, IonList, IonItem, IonLabel,IonFab, IonFabButton, IonIcon, IonCard,IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
+  imports: [CommonModule,PercentPipe,IonCardContent, IonButton, IonList, IonItem, IonLabel,IonFab, IonFabButton, IonIcon, IonCard,IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
 })
 
 export class Tab1Page {
+    // Declarar las propiedades que se usan en la plantilla
+    predictionMessage: string = '';
+    recommendationLink: string = '';
+  isJorobado: boolean = false;
+  showMessage: boolean = false;
 
   imageReady = signal(false)
   imageUrl = signal("")
@@ -63,14 +70,35 @@ export class Tab1Page {
   }
 
   /* Método para obtener la predicción a partir de la imagen */
-  async predict() {
+/* Método para obtener la predicción a partir de la imagen */
+async predict() {
   try {
-      const image = this.imageElement.nativeElement;
-      this.predictions = await this.teachablemachine.predict(image);
-  } catch (error) {
-      console.error(error);
-      alert('Error al realizar la predicción.');
+    const image = this.imageElement.nativeElement; // Obtén la imagen seleccionada
+    this.predictions = await this.teachablemachine.predict(image); // Realiza la predicción
+
+    // Verifica si alguna de las predicciones es "jorobado" con probabilidad mayor al 50%
+    const jorobadoPrediction = this.predictions.find(
+      (prediction: any) =>
+        prediction.className.toLowerCase() === 'jorobado' &&
+        prediction.probability > 0.5
+    );
+
+    // Si hay una predicción "jorobado" y la probabilidad es mayor al 50%, se guarda el mensaje
+    if (jorobadoPrediction) {
+      this.predictionMessage = 'Tu postura parece jorobada. Visita este sitio para mejorarla:';
+      this.recommendationLink = 'https://medlineplus.gov/spanish/guidetogoodposture.html';
+    } else {
+      this.predictionMessage = '¡Felicidades! Tu postura es excelente.';
+      this.recommendationLink = '';
     }
+
+    this.showMessage = true; // Activa la visualización del mensaje
+
+  } catch (error) {
+    console.error(error);
+    alert('Error al realizar la predicción.');
   }
+}
+
 
 }

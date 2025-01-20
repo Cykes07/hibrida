@@ -1,0 +1,103 @@
+/* Estilos generales para la página de retroalimentación */
+ion-content {
+    --background: #f9f9f9; /* Fondo claro para toda la página */
+    padding: 10px;
+  }
+  
+  /* Estilo para las tarjetas */
+  ion-card {
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    --border-radius: 10px; /* Bordes redondeados */
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo para el encabezado de la tarjeta */
+  ion-card-header {
+    background-color: #3b5998; /* Fondo verde */
+    color: white;
+    font-size: 1.2em; /* Tamaño de fuente más grande */
+    padding: 12px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  /* Estilo para el título de la tarjeta */
+  ion-card-title {
+    font-weight: bold;
+    font-size: 1.3em;
+    color: white;
+  }
+  
+  /* Estilo para el contenido de la tarjeta */
+  ion-card-content {
+    background-color: white;
+    padding: 20px;
+    font-size: 1em;
+    text-align: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  /* Estilo para los campos de entrada (select y textarea) */
+  ion-select, ion-textarea {
+    --background: #f0f0f0; /* Fondo gris claro */
+    --padding-start: 10px;
+    --border-radius: 8px;
+    --height: 50px;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilo para el botón de envío */
+  ion-button {
+    --background: #3b5998; /* Fondo verde */
+    --color: white; /* Color de texto blanco */
+    --border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+    margin-top: 10px;
+  }
+  
+  ion-button:disabled {
+    --background: #e0e0e0; /* Fondo gris cuando está deshabilitado */
+    --color: #a5a5a5; /* Color de texto gris cuando está deshabilitado */
+  }
+  
+  /* Estilo para la lista de opiniones */
+  ion-list {
+    padding: 0;
+  }
+  
+  /* Estilo para los elementos de la lista */
+  ion-item {
+    --background: #f9f9f9; /* Fondo gris claro para cada item */
+    --padding-start: 15px;
+    --padding-end: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilo para las etiquetas dentro de los items */
+  ion-label {
+    font-size: 1em !important;
+    color: #333 !important; /* Color oscuro para las etiquetas */
+    display: block !important;
+  }
+  
+  /* Estilo para los títulos en los elementos de la lista */
+  ion-item ion-label:first-child {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #3b5998; /* Color verde para la calificación */
+  }
+  
+  /* Estilo para el encabezado de la página */
+  ion-header {
+    background-color: #ffffff; /* Fondo blanco para el encabezado */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin-bottom: 20px;
+  }
+  

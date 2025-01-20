@@ -1,9 +1,107 @@
-img {
-    width: 100vw;
-    height: 30vh;
-    object-fit: cover;
-}
-
-ion-button {
+/* Estilo general de la página */
+ion-content {
+    --background: #f4f4f9; /* Fondo claro para la página */
+    padding: 20px;
+  }
+  
+  /* Estilo para los títulos principales */
+  ion-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4a90e2; /* Color azul */
+    text-align: center;
+  }
+  
+  /* Estilo para el título secundario en los cards */
+  h2 {
+    font-size: 20px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo para los párrafos */
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo para las imágenes */
+  img {
+    width: 100%;
+    max-width: 400px;
     margin: 0 auto;
-}
+    display: block;
+    border-radius: 8px; /* Bordes redondeados */
+  }
+  
+  /* Estilo de la tarjeta con información */
+  ion-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Sombras suaves */
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+  
+  /* Botón de predicción */
+  ion-button {
+    font-size: 18px;
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Estilo para mostrar el mensaje de predicción */
+  ion-item {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h3 {
+    font-size: 18px;
+    color: #e74c3c;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  /* Estilo para el enlace de recomendación */
+  a {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    color: #3498db;
+    margin-top: 10px;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Estilo para los botones flotantes */
+  ion-fab {
+    background-color: #3498db;
+    border-radius: 50%;
+  }
+  
+  ion-fab-button {
+    background-color: #ffffff;
+    color: #3498db;
+    font-size: 30px;
+  }
+  
+  ion-fab-button:hover {
+    background-color: #f4f4f9;
+  }
+  

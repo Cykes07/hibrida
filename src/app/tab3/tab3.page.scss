@@ -1,9 +1,52 @@
+/* Estilos para el header */
+ion-header {
+  --background: #3b5998; /* Color de fondo para el header */
+  --color: white; /* Color del texto */
+}
+
+ion-toolbar {
+  --background: #3b5998; /* Ajuste de color de fondo */
+}
+
+ion-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+/* Estilos para el card */
+ion-card {
+  --background: #f9f9f9; /* Fondo del card */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  margin: 20px 0; /* Espaciado superior e inferior */
+}
+
+ion-card-header {
+  background-color: #f1f1f1; /* Fondo gris claro */
+  border-radius: 8px 8px 0 0; /* Bordes redondeados solo en la parte superior */
+  padding: 12px 16px; /* Espaciado interno */
+}
+
 .titulo {
-    color: var(--ion-color-primary);
-      font-weight: bold;
-      text-align: center;
-  }
- 
-  p#descripcion {
-    text-align: justify;
-  }
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333; /* Color del título */
+  text-align: left;
+}
+
+ion-card-content {
+  padding: 16px; /* Espaciado interno */
+  font-size: 1rem; /* Tamaño de fuente para el texto */
+  line-height: 1.6; /* Mayor espacio entre líneas */
+  color: #666; /* Color de texto más suave */
+  text-align: justify; /* Alinear el texto justificado */
+}
+
+#descripcion {
+  margin-top: 10px; /* Espaciado superior */
+  color: #444; /* Color del texto de la descripción */
+  font-size: 1rem;
+  text-align: justify;
+}

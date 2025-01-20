@@ -1,13 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Teachable Machine</ion-title>
+    <ion-title>
+      StraightUp
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Teachable Machine</ion-title>
+      <ion-title size="large">StraightUp</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -56,6 +58,10 @@
             <a *ngIf="recommendationLink" href="{{ recommendationLink }}" target="_blank">Haz clic aquí para más información.</a>
           </ion-label>
         </ion-item>
+        <!-- GRÁFICO PARA VISUALIZAR RESULTADOS -->
+        <div class="chart-container">
+          <canvas #resultChart></canvas>
+        </div>
      
       } 
       <!-- CARGA DE PREDICCIÓN - FIN -->

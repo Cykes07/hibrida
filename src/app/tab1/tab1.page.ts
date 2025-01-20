@@ -10,7 +10,6 @@ import { cloudUploadOutline } from 'ionicons/icons';
 import { TeachablemachineService } from '../services/teachablemachine.service';
 import { CommonModule } from '@angular/common'; // Importar CommonModule
 
-
 @Component({
   selector: 'app-tab1',
   standalone: true,
@@ -37,6 +36,9 @@ export class Tab1Page {
 
   /* Lista de predicciones */
   predictions: any[] = [];
+
+  @ViewChild('resultChart', { static: false }) resultChart!: ElementRef; // Referencia al gráfico
+  chart: any; // Variable para almacenar el gráfico
 
   constructor(private teachablemachine: TeachablemachineService) {
      /* Registre el ícono */
@@ -75,7 +77,7 @@ async predict() {
   try {
     const image = this.imageElement.nativeElement; // Obtén la imagen seleccionada
     this.predictions = await this.teachablemachine.predict(image); // Realiza la predicción
-
+    
     // Verifica si alguna de las predicciones es "jorobado" con probabilidad mayor al 50%
     const jorobadoPrediction = this.predictions.find(
       (prediction: any) =>
@@ -100,5 +102,31 @@ async predict() {
   }
 }
 
+
+  createChart(labels: string[], data: number[]) {
+    const ctx = this.resultChart.nativeElement.getContext('2d');
+    this.chart = new Chart(ctx, {
+      type: 'pie', // Cambiado a gráfico de pastel
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Porcentaje',
+            data,
+            backgroundColor: ['#FF6384', '#36A2EB'], // Colores personalizados
+            hoverBackgroundColor: ['#FF6384', '#36A2EB'], // Colores al pasar el mouse
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top', // Mostrar leyenda en la parte superior
+          },
+        },
+      },
+    });
+  }
 
 }
